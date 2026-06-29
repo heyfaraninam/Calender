@@ -78,7 +78,7 @@ No build step. No npm. No config.
 calendar/
 ├── index.html     # Layout, topbar, sidebar, modal, views
 ├── styles.css     # Glassmorphism, grid layouts, event chips, modal
-└── app.js         # Calendar logic, recurring events, drag & drop, localStorage
+└── script.js         # Calendar logic, recurring events, drag & drop, localStorage
 ```
 
 ---
@@ -116,7 +116,6 @@ calendar/
 | [Weather](https://github.com/heyfaraninam/Weather) | Weather app with forecast & geolocation |
 | [Typing Speed](https://github.com/heyfaraninam/typing-speed) | Typing test with live WPM & history |
 | [Password Generator](https://github.com/heyfaraninam/password-generator) | Cryptographic password generator |
-| [Pomodoro](https://github.com/heyfaraninam/pomodoro) | Pomodoro timer with ambient sounds |
 | [Movies](https://github.com/heyfaraninam/movies) | Movie search with cast, trailers & favorites |
 | **Calendar** | This project |
 
