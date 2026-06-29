@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calendar ✦</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="mesh"></div>
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand"><div class="brand-dot"></div>Calendar ✦</div>
+    <div class="topbar-center">
+      <button class="nav-arrow" onclick="navPrev()">‹</button>
+      <div class="current-period" id="current-period"></div>
+      <button class="nav-arrow" onclick="navNext()">›</button>
+    </div>
+    <div class="topbar-right">
+      <button class="today-btn" onclick="goToday()">Today</button>
+      <div class="view-pill-group">
+        <button class="view-pill active" data-view="month" onclick="setView('month')">Month</button>
+        <button class="view-pill" data-view="week"  onclick="setView('week')">Week</button>
+        <button class="view-pill" data-view="day"   onclick="setView('day')">Day</button>
+      </div>
+      <button class="new-event-btn" onclick="openNew('')">＋ Event</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="mini-cal">
+      <div class="mini-hdr">
+        <button class="mini-arrow" onclick="miniNav(-1)">‹</button>
+        <div class="mini-month" id="mini-month-label"></div>
+        <button class="mini-arrow" onclick="miniNav(1)">›</button>
+      </div>
+      <div class="mini-grid">
+        <div class="mini-dow">S</div><div class="mini-dow">M</div><div class="mini-dow">T</div>
+        <div class="mini-dow">W</div><div class="mini-dow">T</div><div class="mini-dow">F</div>
+        <div class="mini-dow">S</div>
+        <div id="mini-grid"></div>
+      </div>
+    </div>
+    <div class="upcoming" style="padding-top:0">
+      <div class="upcoming-title">Upcoming</div>
+      <div id="upcoming-list"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="cal-main" id="cal-area"></div>
+
+</div>
+
+<!-- EVENT MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title-txt" id="modal-title-txt">New Event</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input class="form-inp" id="ev-title" type="text" placeholder="Event title…"/>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input class="form-inp" id="ev-date" type="date"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Start Time</label>
+        <input class="form-inp" id="ev-start" type="time"/>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">End Time</label>
+        <input class="form-inp" id="ev-end" type="time"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Repeat</label>
+        <div class="recur-row">
+          <button class="recur-pill active" data-recur="none"    onclick="setRecur('none')">None</button>
+          <button class="recur-pill"        data-recur="daily"   onclick="setRecur('daily')">Daily</button>
+          <button class="recur-pill"        data-recur="weekly"  onclick="setRecur('weekly')">Weekly</button>
+          <button class="recur-pill"        data-recur="monthly" onclick="setRecur('monthly')">Monthly</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <input class="form-inp" id="ev-desc" type="text" placeholder="Optional notes…"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Color</label>
+      <div class="color-picker">
+        <div class="color-swatch selected" style="background:#c77dff" data-color="#c77dff" onclick="setColor('#c77dff')"></div>
+        <div class="color-swatch" style="background:#48cae4" data-color="#48cae4" onclick="setColor('#48cae4')"></div>
+        <div class="color-swatch" style="background:#f72585" data-color="#f72585" onclick="setColor('#f72585')"></div>
+        <div class="color-swatch" style="background:#ffd166" data-color="#ffd166" onclick="setColor('#ffd166')"></div>
+        <div class="color-swatch" style="background:#39ff83" data-color="#39ff83" onclick="setColor('#39ff83')"></div>
+        <div class="color-swatch" style="background:#ff6b35" data-color="#ff6b35" onclick="setColor('#ff6b35')"></div>
+        <div class="color-swatch" style="background:#a8edea" data-color="#a8edea" onclick="setColor('#a8edea')"></div>
+        <div class="color-swatch" style="background:#ee9ca7" data-color="#ee9ca7" onclick="setColor('#ee9ca7')"></div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="mbtn mbtn-danger" id="btn-delete" onclick="deleteEvent()" style="display:none">Delete</button>
+      <button class="mbtn mbtn-primary" onclick="saveEvent()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+<script>
+  // fix mini-grid — render into correct element
+  (function(){
+    const wrap = document.querySelector('.mini-cal .mini-grid');
+    const inner = document.getElementById('mini-grid');
+    if(inner && inner.parentNode !== wrap){ wrap.appendChild(inner); }
+  })();
+</script>
+</body>
+</html>
